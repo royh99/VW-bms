@@ -345,8 +345,8 @@ void setup()
   SERIALCONSOLE.println("Starting up!");
   SERIALCONSOLE.println("SimpBMS V2 VW");
 
-  //Serial2.begin(115200); // For Nextion Disply
-  Serial2.begin(9600); ///////For monitoring with Bluetooth terminal///////////
+  Serial2.begin(115200); // For Nextion Disply
+  
 
   // Display reason the Teensy was last reset
   Serial.println();
@@ -3666,7 +3666,8 @@ void pwmcomms()
 }
 
 void dashupdate()
-{
+{ 
+  SERIALCONSOLE.print(bmsstatus);
   Serial2.write("stat.txt=");
   Serial2.write(0x22);
   if (settings.ESSmode == 1)
@@ -3710,7 +3711,7 @@ void dashupdate()
         break;
     }
   }
-  Serial2.write(0x22);
+  Serial2.write(0x22); 
   Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
   Serial2.write(0xff);
   Serial2.write(0xff);
@@ -3790,9 +3791,6 @@ void dashupdate()
       Serial2.write(0xff);   
       
     }
-  
-  Serial2.write(0xff);
-
 }
 
 
