@@ -3020,7 +3020,7 @@ void menu()
     }
   }
 
-  if (incomingByte == 115 & menuload == 0)
+  if ((incomingByte == 115) & (menuload == 0))
   {
     SERIALCONSOLE.println();
     SERIALCONSOLE.println("MENU");
@@ -3667,7 +3667,6 @@ void pwmcomms()
 
 void dashupdate()
 { 
-  SERIALCONSOLE.print(bmsstatus);
   Serial2.write("stat.txt=");
   Serial2.write(0x22);
   if (settings.ESSmode == 1)
