@@ -3041,7 +3041,8 @@ void menu()
 }
 
 void canread()
-{
+{ 
+  Can1.read(inMsg);
   // Read data: len = data length, buf = data byte(s)
   if ( settings.cursens == Canbus)
   {
