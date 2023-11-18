@@ -353,14 +353,14 @@ void setup()
   Serial.println("Reason for last Reset: ");
 
 if (SRC_SRSR & SRC_SRSR_TEMPSENSE_RST_B)        Serial.println("Temperature Sensor Software Reset");
-    if (SRC_SRSR & SRC_SRSR_WDOG3_RST_B)        Serial.println("IC Watchdog3 Timeout Reset");
-    if (SRC_SRSR & SRC_SRSR_JTAG_SW_RST)        Serial.println("JTAG Software Reset");
-    if (SRC_SRSR & SRC_SRSR_JTAG_RST_B)         Serial.println("High-Z JTAG Reset");
-    if (SRC_SRSR & SRC_SRSR_WDOG_RST_B)         Serial.println("IC Watchdog Timeout Reset");
-    if (SRC_SRSR & SRC_SRSR_IPP_USER_RESET_B)   Serial.println("Power-up Sequence (Cold Reset Event)");
-    if (SRC_SRSR & SRC_SRSR_CSU_RESET_B)        Serial.println("Central Security Unit Reset");
-    if (SRC_SRSR & SRC_SRSR_LOCKUP_SYSRESETREQ) Serial.println("CPU Lockup or Software Reset");
-    if (SRC_SRSR & SRC_SRSR_IPP_RESET_B)        Serial.println("Power-up Sequence");
+if (SRC_SRSR & SRC_SRSR_WDOG3_RST_B)        Serial.println("IC Watchdog3 Timeout Reset");
+if (SRC_SRSR & SRC_SRSR_JTAG_SW_RST)        Serial.println("JTAG Software Reset");
+if (SRC_SRSR & SRC_SRSR_JTAG_RST_B)         Serial.println("High-Z JTAG Reset");
+if (SRC_SRSR & SRC_SRSR_WDOG_RST_B)         Serial.println("IC Watchdog Timeout Reset");
+if (SRC_SRSR & SRC_SRSR_IPP_USER_RESET_B)   Serial.println("Power-up Sequence (Cold Reset Event)");
+if (SRC_SRSR & SRC_SRSR_CSU_RESET_B)        Serial.println("Central Security Unit Reset");
+if (SRC_SRSR & SRC_SRSR_LOCKUP_SYSRESETREQ) Serial.println("CPU Lockup or Software Reset");
+if (SRC_SRSR & SRC_SRSR_IPP_RESET_B)        Serial.println("Power-up Sequence");
 
   Serial.println();
   ///////////////////
@@ -4051,25 +4051,28 @@ void chargercomms()
 
     msg.id = 0x285;
     msg.len = 8;
-        
-    msg.buf[0] = 0x0;
-    msg.buf[1] = 0x0;
-    msg.buf[2] = 0xb6;
-    msg.buf[3] = 0x0;
-    msg.buf[4] = 0x0;
-    msg.buf[5] = 0x0;
-    msg.buf[6] = 0x0;
+    msg.flags.extended = 0;     
+    msg.buf[0] = 0x00;
+    msg.buf[1] = 0x00;
+    msg.buf[2] = 0xb6; // 0x14 needs to sent this in drive mode
+    msg.buf[3] = 0x00; // 0x39               "
+    msg.buf[4] = 0x00; // 0x91               "
+    msg.buf[5] = 0x00; // 0xFE               "
+    msg.buf[6] = 0x00; // 0x0C               "
+    msg.buf[7] = 0x00; // 0x10               "
     Can1.write(msg);
  
     msg.id  = 0x286;
     msg.len = 8;
+    msg.flags.extended = 0; 
     msg.buf[0] = highByte(uint16_t(settings.ChargeVsetpoint * settings.Scells * 10));//volage
     msg.buf[1] = lowByte(uint16_t(settings.ChargeVsetpoint * settings.Scells * 10));
     msg.buf[2] = lowByte(chargecurrent / ncharger);
-    msg.buf[3] = 0x0;
-    msg.buf[4] = 0x0;
-    msg.buf[5] = 0x0;
-    msg.buf[6] = 0x0;
+    msg.buf[3] = 0x00; // 0x3D or 0x3C in drive mode
+    msg.buf[4] = 0x00;
+    msg.buf[5] = 0x00;
+    msg.buf[6] = 0x00; // 0x21              "
+    msg.buf[7] = 0x00;
     Can1.write(msg);
   }   
 }
